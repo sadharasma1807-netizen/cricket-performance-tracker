@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cricket Performance Tracker Pro</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <div class="eyebrow">SPORTS ANALYTICS</div>
+    <h1>🏏 Cricket Performance Tracker</h1>
+    <p>Track players, match performances and team statistics.</p>
+  </div>
+  <div class="top-actions">
+    <button id="themeBtn" class="btn ghost">🌙 Dark</button>
+    <button id="resetBtn" class="btn danger">Reset Data</button>
+  </div>
+</header>
+
+<main class="container">
+  <section class="stats-grid">
+    <div class="stat-card"><span>Players</span><strong id="totalPlayers">0</strong><small>Registered</small></div>
+    <div class="stat-card"><span>Matches</span><strong id="totalMatches">0</strong><small>Recorded</small></div>
+    <div class="stat-card"><span>Total Runs</span><strong id="totalRuns">0</strong><small>All players</small></div>
+    <div class="stat-card"><span>Total Wickets</span><strong id="totalWickets">0</strong><small>All players</small></div>
+    <div class="stat-card"><span>Highest Score</span><strong id="highestScore">0</strong><small id="highestPlayer">—</small></div>
+    <div class="stat-card"><span>Best Bowling</span><strong id="bestBowling">0</strong><small id="bestBowler">—</small></div>
+  </section>
+
+  <section class="grid-2">
+    <div class="panel">
+      <h2>➕ Add Player</h2>
+      <form id="playerForm">
+        <input type="hidden" id="editPlayerId">
+        <label>Player Name<input id="playerName" required maxlength="50" placeholder="e.g. Arjun"></label>
+        <label>Team<input id="playerTeam" required maxlength="50" placeholder="e.g. KCAS Warriors"></label>
+        <label>Role
+          <select id="playerRole">
+            <option>Batter</option><option>Bowler</option><option>All-Rounder</option><option>Wicket-Keeper</option>
+          </select>
+        </label>
+        <div class="form-actions">
+          <button class="btn primary" id="playerSubmit" type="submit">Add Player</button>
+          <button class="btn secondary hidden" id="playerCancel" type="button">Cancel Edit</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="panel">
+      <h2>🏏 Add Match Performance</h2>
+      <form id="performanceForm">
+        <input type="hidden" id="editPerformanceId">
+        <label>Player<select id="performancePlayer" required></select></label>
+        <div class="form-row">
+          <label>Date<input id="matchDate" type="date" required></label>
+          <label>Opponent<input id="opponent" required maxlength="50" placeholder="e.g. Chennai CC"></label>
+        </div>
+        <div class="form-row">
+          <label>Runs<input id="runs" type="number" min="0" required></label>
+          <label>Balls<input id="balls" type="number" min="0" required></label>
+        </div>
+        <div class="form-row">
+          <label>Wickets<input id="wickets" type="number" min="0" required></label>
+          <label>Overs<input id="overs" type="number" min="0" step="0.1" required placeholder="e.g. 4"></label>
+        </div>
+        <div class="form-actions">
+          <button class="btn primary" id="performanceSubmit" type="submit">Save Performance</button>
+          <button class="btn secondary hidden" id="performanceCancel" type="button">Cancel Edit</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="grid-2">
+    <div class="panel">
+      <div class="section-head"><h2>🏆 Leaderboard</h2></div>
+      <div class="leader-grid">
+        <div class="leader-card"><span>🔥 Top Run Scorer</span><strong id="topRunPlayer">—</strong><b id="topRunValue">0 runs</b></div>
+        <div class="leader-card"><span>🎯 Top Wicket Taker</span><strong id="topWicketPlayer">—</strong><b id="topWicketValue">0 wickets</b></div>
+      </div>
+      <div id="leaderRows" class="leader-rows"></div>
+    </div>
+
+    <div class="panel">
+      <div class="section-head"><h2>📌 Quick Player Summary</h2></div>
+      <select id="profilePlayer" class="profile-select"></select>
+      <div id="profileContent" class="profile-content"></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="section-head">
+      <h2>👥 Players</h2>
+      <div class="head-actions">
+        <input id="searchPlayer" class="search" placeholder="Search player or team...">
+        <button id="exportPlayers" class="btn secondary">📥 Export Players</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Team</th><th>Role</th><th>Matches</th><th>Runs</th><th>Wkts</th><th>Avg SR</th><th>Actions</th></tr></thead>
+        <tbody id="playersBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="section-head">
+      <h2>📊 Performance Records</h2>
+      <div class="head-actions">
+        <select id="filterPlayer"><option value="">All Players</option></select>
+        <input id="filterFrom" type="date" title="From date">
+        <input id="filterTo" type="date" title="To date">
+        <input id="filterOpponent" placeholder="Opponent">
+        <select id="sortPerformance">
+          <option value="date">Latest first</option><option value="runs">Highest runs</option><option value="wickets">Most wickets</option>
+        </select>
+        <button id="exportPerformance" class="btn secondary">📥 Export CSV</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Player</th><th>Opponent</th><th>Runs</th><th>Balls</th><th>Strike Rate</th><th>Wickets</th><th>Economy</th><th>Actions</th></tr></thead>
+        <tbody id="performanceBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="section-head"><h2>📈 Player Performance</h2><span class="muted">Runs by player</span></div>
+    <div id="performanceBars" class="bars"></div>
+  </section>
+</main>
+
+<div id="toast" class="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
